@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-from os import getenv
+""" New engine DB storage"""
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.state import State
@@ -9,8 +10,14 @@ from models.user import User
 from models.amenity import Amenity
 from models.review import Review
 from models.base_model import Base, BaseModel
-""" 
-"""
+
+
+classes = {
+    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+    'State': State, 'City': City, 'Amenity': Amenity,
+    'Review': Review
+}
+
 
 class DBStorage:
     """class database storage """
@@ -18,26 +25,18 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """
-        
-        """
-        username = getenv('HBNB_MYSQL_USER')
-        password = getenv('HBNB_MYSQL_PWD')
-        host = getenv('HBND_MYSQL_HOST')
-        db_name = getenv('HBNB_MYSQL_DB')
+        """ The init method"""
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
+            os.getenv('HBNB_MYSQL_USER'),
+            os.getenv('HBNB_MYSQL_PWD'),
+            os.getenv('HBNB_MYSQL_HOST'),
+            os.getenv('HBNB_MYSQL_DB')), pool_pre_ping=True)
 
-        db_url = "mysql+mysqldb://():()@()/()".format
-        (username, password, host, db_name)
-
-        self.__engine = create_engine(db_url, pool_pre_ping=True)
-
-        if getenv('HBNB_ENV') == 'test':
+        if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """
-        
-        """
+        """ all method """
         objs_list = []
         if cls:
             if isinstance(cls, str):
@@ -74,7 +73,9 @@ class DBStorage:
         """ delete the object to the current
         database session (self.__session)
         """
-        self.session.delete(obj)
+        if obj:
+            self.session.delete(obj)
+            self.save()
     
     def reload(self):
         """
@@ -85,3 +86,8 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+    
+    def close(self):
+        """ close method """
+        if self.__session:
+            self.__session.close()
