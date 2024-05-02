@@ -34,6 +34,23 @@ class FileStorage:
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
+    
+    def delete(self, obj=None):
+        """Deletes obj from __objects if it exists"""
+        if (obj is None):
+            return
+        if obj:
+            del(obj)
+         # if (obj is None):
+        #     return
+
+        # key = obj.__class__.__name__ + '.' + obj.id
+
+        # try:
+        #     del(self.all()[key])
+        #     self.save()
+        # except KeyError:
+        #     print("** no instance found **")
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -59,24 +76,7 @@ class FileStorage:
                         obj = classes[class_name](**val)
                         FileStorage.__objects[key] = obj
         except FileNotFoundError:
-            pass
-
-    def delete(self, obj=None):
-        """Deletes obj from __objects if it exists"""
-        if (obj is None):
-            return
-        if obj:
-            del(obj)
-         # if (obj is None):
-        #     return
-
-        # key = obj.__class__.__name__ + '.' + obj.id
-
-        # try:
-        #     del(self.all()[key])
-        #     self.save()
-        # except KeyError:
-        #     print("** no instance found **")
+            pass    
     
     def close(self):
         """ close method """
