@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 import models
-from models.base_model import BaseModel
-from models.base_model import Base
+from models.base_model import BaseModel, Base
 from models.amenity import Amenity
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
@@ -20,7 +19,8 @@ place_amenity = Table('place_amenity', Base.metadata,
 class Place(BaseModel):
     """ A place to stay """
     __tablename__ = 'places'
-
+    amenities = relationship("Amenity", secondary='place_amenity',
+                             back_populates="place_amenities", viewonly=False)
     city_id = Column(String(60),
                      ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60),
@@ -52,7 +52,8 @@ class Place(BaseModel):
     @property
     def amenities(self):
         """ getter attribute amenitites that returns the list of...
-            ...Amenity instances """
+        ...Amenity instances """
+        from models.amenity import Amenity
         list_obj = []
         amen_objs = models.storage.all('Amenity')
         for am in amen_objs.values():
