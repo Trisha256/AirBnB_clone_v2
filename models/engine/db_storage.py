@@ -41,14 +41,14 @@ class DBStorage:
         if cls:
             if isinstance(cls, str):
                 try:
-                    globals()[cls]
+                    cls = globals()[cls]
                 except KeyError:
                     pass
             if issubclass(cls, Base):
                 objs_list = self.__session.query(cls).all()
         else:
             for subclass in Base.__subclasses__():
-                objs_list.extend(self.__session.query(subclass).all)
+                objs_list.extend(self.__session.query(subclass).all())
         
         obj_dict = {}
         for obj in objs_list:
@@ -67,14 +67,14 @@ class DBStorage:
         Commit the object to the current
         database session (self.__session)
         """
-        self.__session.commit(obj)
+        self.__session.commit()
     
     def delete(self, obj=None):
         """ delete the object to the current
         database session (self.__session)
         """
         if obj:
-            self.session.delete(obj)
+            self.__session.delete(obj)
             self.save()
     
     def reload(self):

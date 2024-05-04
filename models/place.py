@@ -53,12 +53,11 @@ class Place(BaseModel):
     def amenities(self):
         """ getter attribute amenitites that returns the list of...
         ...Amenity instances """
-        from models.amenity import Amenity
         list_obj = []
         amen_objs = models.storage.all('Amenity')
         for am in amen_objs.values():
-            if amenity.id in amenity_ids:
-                list_obj.append(amenity)
+            if am.id in self.amenity_ids:
+                list_obj.append(am)
             return list_obj
 
     @amenities.setter
