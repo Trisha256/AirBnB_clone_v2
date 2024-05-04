@@ -9,7 +9,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name = Column(String(128), nulable=False)
+    name = Column(String(128), nullable=False)
     cities = relationship("City", cascade="delete", backref="state")
     
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
