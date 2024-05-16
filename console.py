@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        
+
         elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -134,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
             parts = param.split('=')
             if len(parts) != 2:
                 continue
-            
+
             key = parts[0]
             value = parts[1]
 
@@ -157,7 +157,8 @@ class HBNBCommand(cmd.Cmd):
 
             params[key] = value
 
-        # Created a new instance of the specified class with the given parameters
+        # Created a new instance of the specified
+        # class with the given parameters
         new_instance = HBNBCommand.classes[class_name](**params)
 
         # Saving the newly created instance using the FileStorage engine
@@ -360,6 +361,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
