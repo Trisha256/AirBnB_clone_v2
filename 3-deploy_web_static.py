@@ -1,8 +1,9 @@
-from fabric.api import env, local, put, run
+from fabric.api import env, run
 from datetime import datetime
 from os import path
 
-env.hosts = ['32.231.168.90', '3.233.54.196']
+env.hosts = ['<IP web-01>', '<IP web-02>']  # Update with your web server IPs
+
 
 def do_pack():
     """
@@ -28,6 +29,7 @@ def do_pack():
         return None
 
     return archive_path
+
 
 def do_deploy(archive_path):
     """
@@ -57,12 +59,13 @@ def do_deploy(archive_path):
 
     return True
 
+
 def deploy():
     """
     Creates and distributes an archive to web servers
     """
     archive_path = do_pack()
-    if archive_path is None:
+    if not archive_path:
         return False
 
     return do_deploy(archive_path)
