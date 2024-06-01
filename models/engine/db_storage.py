@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ New engine DB storage"""
+
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -10,7 +11,6 @@ from models.user import User
 from models.amenity import Amenity
 from models.review import Review
 from models.base_model import Base, BaseModel
-
 
 classes = {
     'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -88,6 +88,5 @@ class DBStorage:
         self.__session = Session()
     
     def close(self):
-        """ close method """
-        if self.__session:
-            self.__session.close()
+        """call remove() method on the private session attribute"""
+        self.__session.remove()
