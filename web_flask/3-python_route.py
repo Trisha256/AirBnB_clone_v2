@@ -2,8 +2,8 @@
 """
 Start Flask application
 """
-
 from flask import Flask
+
 app = Flask(__name__)
 
 
@@ -32,6 +32,7 @@ def cisfun():
 def pythoniscool(text='is cool'):
     """display “Python ”, followed by the value of the text variable"""
     return 'Python ' + text.replace('_', ' ')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5000')
