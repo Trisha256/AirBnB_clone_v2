@@ -2,6 +2,7 @@
 """
 Start a flask application.
 """
+
 from flask import Flask
 
 
