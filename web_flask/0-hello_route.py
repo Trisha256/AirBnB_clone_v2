@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
+
+
 def index():
 	"""Returns Hello HBNB"""
 	return 'Hello HBNB!'
