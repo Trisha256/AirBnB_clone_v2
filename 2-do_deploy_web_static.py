@@ -42,5 +42,5 @@ def do_deploy(archive_path):
         # web server, linked to the new version of your code
         # (/data/web_static/releases/<archive filename without extension>)
         return True
-    except:
+    except Exception:
         return False
